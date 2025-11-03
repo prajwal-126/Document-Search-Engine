@@ -1,0 +1,8 @@
+
+backend/uploads/*
+backend/node_modules/*
+
+
+frontend/vite-project/node_modules/*
+
+
