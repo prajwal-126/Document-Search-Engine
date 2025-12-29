@@ -22,7 +22,7 @@ function DocumentManager() {
   const handleUpload = async () => {
     if (!files || files.length === 0) return alert("Please select files!");
 
-    const formData = new FormData();
+    const formData = new FormData();   ///browser's provided object
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
     }

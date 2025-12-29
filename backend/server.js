@@ -9,21 +9,24 @@
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
+
 const fs = require("fs");
 const pdfParse = require("pdf-parse");
 const mammoth = require("mammoth");
 const { Client } = require("@elastic/elasticsearch");
 
 const app = express();
-const upload = multer({ dest: "uploads/" });
 const client = new Client({ node: "http://localhost:9200" });
 
 app.use(cors());
 app.use(express.json());
 
+
+////RUN MULTER
+const upload = multer({ dest: "uploads/" });
 // Reset documents index
 app.post("/reset-index", async (req, res) => {
-  const indexName = "documents";
+  const indexName = "documents";   ////onle one INDEX (database) 
 
   try {
     const exists = await client.indices.exists({ index: indexName });
@@ -52,6 +55,7 @@ app.post("/upload", upload.array("files"), async (req, res) => {
     const indexName = "documents";
 
     for (const file of files) {
+      console.log(file, "file");
       let text = "";
 
       if (file.mimetype === "application/pdf") {
@@ -108,7 +112,7 @@ app.get("/search", async (req, res) => {
     index: "documents",
     query: {
       match_phrase: {
-        content: query, // Exact phrase match
+        content: query, 
       },
     },
     highlight: {
