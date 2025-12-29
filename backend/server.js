@@ -134,3 +134,6 @@ app.get("/search", async (req, res) => {
 });
 
 app.listen(5000, () => console.log("Server running on port 5000 , woohoo!!!"));
+
+
+////removed uploads temp files
