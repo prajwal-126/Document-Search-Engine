@@ -133,7 +133,22 @@ app.get("/search", async (req, res) => {
   res.json(results);
 });
 
-app.listen(5000, () => console.log("Server running on port 5000 , woohoo!!!"));
+// app.listen(5000, () => console.log("Server running on port 5000 , woohoo!!!"));
+
+///ADDED TESTS
+
+app.get("/", (req, res) => {
+  res.send("OK");
+});
+
+
+if (require.main === module) {
+  app.listen(5000, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
 
 
 ////removed uploads temp files
