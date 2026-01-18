@@ -1,3 +1,11 @@
+jest.mock("pdf-parse", () => jest.fn());
+jest.mock("mammoth", () => ({
+  extractRawText: jest.fn()
+}));
+jest.mock("@elastic/elasticsearch", () => ({
+  Client: jest.fn()
+}));
+
 const request = require("supertest");
 const app = require("../server.js");
 
