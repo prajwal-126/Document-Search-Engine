@@ -19,6 +19,12 @@ const app = express();
 const client = new Client({ node: process.env.ELASTICSEARCH_URL });
 
 (async function connectToElasticsearch(retries = 5) {
+
+  if (process.env.NODE_ENV === "test") {
+    console.log("Skipping Elasticsearch wait in test mode");
+    return;
+  }
+
   while (retries--) {
     try {
       await client.ping();
