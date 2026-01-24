@@ -10,7 +10,8 @@ function DocumentManager() {
   useEffect(() => {
     const resetIndex = async () => {
       try {
-        await axios.post("http://localhost:5000/reset-index");
+        console.log("calling reset-index api ....");
+        await axios.post("/api/reset-index");
         console.log("Index reset on page reload");
       } catch (err) {
         console.error("Error resetting index:", err);
@@ -28,9 +29,14 @@ function DocumentManager() {
     }
 
     try {
-      await axios.post("http://localhost:5000/upload", formData, {
+      
+      console.log("checkpoint 1");
+
+      await axios.post("/api/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
+      console.log("checkpoint 2");
 
       alert("Files uploaded and indexed!");
       setFiles([]);
@@ -48,7 +54,7 @@ function DocumentManager() {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/search?q=${encodeURIComponent(query)}`
+        `/api/search?q=${encodeURIComponent(query)}`
       );
       setResults(res.data);
     } catch (err) {

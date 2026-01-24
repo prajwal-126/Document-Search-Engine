@@ -47,3 +47,10 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         run: npm run build
+
+
+      - name: Build backend image
+        run: docker build -t backend ./backend
+
+      - name: Build frontend image
+        run: docker build -t frontend ./frontend

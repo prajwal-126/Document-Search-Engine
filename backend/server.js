@@ -16,7 +16,21 @@ const mammoth = require("mammoth");
 const { Client } = require("@elastic/elasticsearch");
 
 const app = express();
-const client = new Client({ node: "http://localhost:9200" });
+const client = new Client({ node: process.env.ELASTICSEARCH_URL });
+
+(async function connectToElasticsearch(retries = 5) {
+  while (retries--) {
+    try {
+      await client.ping();
+      console.log("Elasticsearch connected ✅");
+      return;
+    } catch {
+      console.log("Waiting for Elasticsearch...");
+      await new Promise(r => setTimeout(r, 3000));
+    }
+  }
+  process.exit(1);
+})();
 
 app.use(cors());
 app.use(express.json());
@@ -140,6 +154,9 @@ app.get("/search", async (req, res) => {
 app.get("/", (req, res) => {
   res.send("OK");
 });
+
+
+const PORT = 5000;
 
 
 if (require.main === module) {

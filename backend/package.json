@@ -16,7 +16,7 @@
     "express": "^5.1.0",
     "mammoth": "^1.11.0",
     "multer": "^2.0.2",
-    "pdf-parse": "^2.1.7",
+    "pdf-parse": "^1.1.1",
     "textract": "^2.5.0"
   },
   "devDependencies": {

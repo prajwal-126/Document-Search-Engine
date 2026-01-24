@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+    restart: always
+
+  backend:
+    # ports:
+    #   - "5000:5000"
+    build: ./backend
+    container_name: backend
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - NODE_ENV=production
+    depends_on:
+      - elasticsearch
+    networks:
+      - app-network
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: always
+
+volumes:
+  esdata:
+
+networks:
+  app-network:
+    driver: bridge
