@@ -13,12 +13,11 @@ services:
     networks:
       - app-network
     restart: always
-
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9200 > /dev/null || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 12
 
   backend:
     build: ./backend
