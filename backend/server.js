@@ -18,25 +18,25 @@ const { Client } = require("@elastic/elasticsearch");
 const app = express();
 const client = new Client({ node: process.env.ELASTICSEARCH_URL });
 
-(async function connectToElasticsearch(retries = 5) {
+// (async function connectToElasticsearch() {
 
-  if (process.env.NODE_ENV === "test") {
-    console.log("Skipping Elasticsearch wait in test mode");
-    return;
-  }
+//   if (process.env.NODE_ENV === "test") {
+//     console.log("Skipping Elasticsearch wait in test mode");
+//     return;
+//   }
 
-  while (retries--) {
-    try {
-      await client.ping();
-      console.log("Elasticsearch connected ✅");
-      return;
-    } catch {
-      console.log("Waiting for Elasticsearch...");
-      await new Promise(r => setTimeout(r, 3000));
-    }
-  }
-  process.exit(1);
-})();
+//   while (true) {
+//     try {
+//       await client.ping();
+//       console.log("Elasticsearch connected ✅");
+//       return;
+//     } catch {
+//       console.log("Waiting for Elasticsearch...");
+//       await new Promise(r => setTimeout(r, 3000));
+//     }
+//   }
+//   process.exit(1);
+// })();
 
 app.use(cors());
 app.use(express.json());

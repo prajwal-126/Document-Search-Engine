@@ -14,16 +14,21 @@ services:
       - app-network
     restart: always
 
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
-    # ports:
-    #   - "5000:5000"
     build: ./backend
     container_name: backend
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
       - NODE_ENV=production
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     networks:
       - app-network
     restart: always
